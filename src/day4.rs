@@ -12,15 +12,16 @@ fn to_digits(x: u32) -> [u8; 6] {
     digits
 }
 
-fn is_valid_password(digits: &[u8; 6]) -> bool {
+fn is_valid_password(digits: [u8; 6]) -> bool {
     let mut last_seen = digits[0];
     let mut has_valid_double = false;
 
     for &digit in &digits[1..] {
-        if digit > last_seen {
-            return false;
-        } else if digit == last_seen {
-            has_valid_double = true;
+        use std::cmp::Ordering;
+        match digit.cmp(&last_seen) {
+            Ordering::Greater => return false,
+            Ordering::Equal => has_valid_double = true,
+            Ordering::Less => (),
         }
 
         last_seen = digit;
@@ -32,8 +33,7 @@ fn is_valid_password(digits: &[u8; 6]) -> bool {
 pub fn solve_part_a() -> usize {
     (168_630..718_098)
         .map(to_digits)
-        .filter(is_valid_password)
-        .count()
+        .fold(0, |acc, digits| acc + if is_valid_password(digits) { 1 } else { 0 })
 }
 
 #[allow(dead_code)]

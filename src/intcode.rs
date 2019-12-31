@@ -17,8 +17,8 @@ enum Opcode {
 
 impl From<u32> for Opcode {
     fn from(n: u32) -> Self {
-        let opcode = n % 100;
         use Opcode::*;
+        let opcode = n % 100;
         match opcode {
             1 => ADD,
             2 => MUL,
@@ -82,12 +82,16 @@ pub fn run_program(
 ) -> Option<i64> {
     let mut current_input = 0;
     loop {
+        use {Mode::*, Opcode::*};
+
+        // Allow a truncating cast here since get_modes_from_instruction will fail if
+        // the value weren't originally between 0 and 99 anyway.
+        #[allow(clippy::cast_possible_truncation)]
         let instruction = prog[*pc] as u32;
         let (lhs_mode, rhs_mode, dest_mode) = get_modes_from_instruction(instruction);
 
         let opcode = Opcode::from(instruction);
 
-        use {Mode::*, Opcode::*};
         let get_index = |mode: Mode, offset: usize| match mode {
             Immediate => *pc + offset,
             Position => prog[*pc + offset].try_into().unwrap(),

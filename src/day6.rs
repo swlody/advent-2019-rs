@@ -59,12 +59,12 @@ impl<'a> System<'a> {
     }
 }
 
-pub fn solve() -> (usize, usize) {
-    let input = std::fs::read_to_string("inputs/day6.txt").unwrap();
-    let system = System::from_string(&input).unwrap();
+pub fn solve() -> Result<(usize, usize)> {
+    let input = std::fs::read_to_string("inputs/day6.txt")?;
+    let system = System::from_string(&input)?;
 
-    (
+    Ok((
         system.count_orbits(),
         system.transfer_distance("YOU", "SAN"),
-    )
+    ))
 }

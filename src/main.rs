@@ -42,7 +42,7 @@ fn main() -> Result<()> {
     );
 
     {
-        let (part_a, part_b) = day6::solve();
+        let (part_a, part_b) = day6::solve()?;
         println!("| {0: <3} | {1: <8} | {2: <8} |", 6, part_a, part_b);
     }
 
@@ -51,6 +51,12 @@ fn main() -> Result<()> {
         7,
         "  TODO",
         day7::solve_part_b()
+    );
+    println!(
+        "| {0: <3} | {1: <8} | {2: <8} |",
+        8,
+        "  TODO",
+        "  TODO",
     );
 
     println!(
