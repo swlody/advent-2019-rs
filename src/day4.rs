@@ -30,13 +30,9 @@ fn is_valid_password(digits: [u8; 6]) -> bool {
     has_valid_double
 }
 
-pub fn solve_part_a() -> usize {
+#[aoc(day4, part1)]
+pub fn part1(_input: &str) -> usize {
     (168_630..718_098)
         .map(to_digits)
         .fold(0, |acc, digits| acc + if is_valid_password(digits) { 1 } else { 0 })
-}
-
-#[allow(dead_code)]
-pub fn solve_part_b() -> usize {
-    0
 }

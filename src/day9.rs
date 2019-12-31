@@ -1,8 +1,8 @@
 use crate::intcode;
 
-pub fn solve_part_b() -> i64 {
-    let prog = std::fs::read_to_string("inputs/day9.txt")
-        .unwrap()
+#[aoc(day9, part2)]
+pub fn part2(input: &str) -> i64 {
+    let prog = input
         .trim()
         .split(',')
         .map(|x| x.parse().unwrap())

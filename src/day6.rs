@@ -1,11 +1,11 @@
-use std::io::{Error, ErrorKind, Result};
+use std::io::{Error, ErrorKind};
 
 struct System<'a> {
     orbits: std::collections::HashMap<&'a str, &'a str>,
 }
 
 impl<'a> System<'a> {
-    fn from_string(string: &'a str) -> Result<Self> {
+    fn from_string(string: &'a str) -> std::io::Result<Self> {
         Ok(Self {
             orbits: string
                 .trim()
@@ -21,7 +21,7 @@ impl<'a> System<'a> {
                         ))
                     }
                 })
-                .collect::<Result<_>>()?,
+                .collect::<std::io::Result<_>>()?,
         })
     }
 
@@ -59,12 +59,16 @@ impl<'a> System<'a> {
     }
 }
 
-pub fn solve() -> Result<(usize, usize)> {
-    let input = std::fs::read_to_string("inputs/day6.txt")?;
+#[aoc(day6, part1)]
+pub fn part1(input: &str) -> std::io::Result<usize> {
     let system = System::from_string(&input)?;
 
-    Ok((
-        system.count_orbits(),
-        system.transfer_distance("YOU", "SAN"),
-    ))
+    Ok(system.count_orbits())
+}
+
+#[aoc(day6, part2)]
+pub fn part2(input: &str) -> std::io::Result<usize> {
+    let system = System::from_string(&input)?;
+
+    Ok(system.transfer_distance("YOU", "SAN"))
 }

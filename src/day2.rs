@@ -6,8 +6,10 @@ fn fix_program(program: &mut Vec<i64>, noun: i64, verb: i64) {
     program[2] = verb;
 }
 
-pub fn solve_part_a() -> std::io::Result<i64> {
-    let mut program = std::fs::read_to_string("inputs/day2.txt")?
+#[aoc(day2, part1)]
+pub fn part1(input: &str) -> i64 {
+    let mut program = input
+        .trim()
         .split(',')
         .map(|x| x.parse::<i64>().unwrap())
         .collect::<Vec<_>>();
@@ -18,11 +20,13 @@ pub fn solve_part_a() -> std::io::Result<i64> {
     let (mut pc, mut relative_base) = (0, 0);
     while let Some(_) = intcode::run_program(&mut program, &mut pc, &mut relative_base, &[]) {}
 
-    Ok(program[0])
+    program[0]
 }
 
-pub fn solve_part_b() -> std::io::Result<i64> {
-    let program = std::fs::read_to_string("inputs/day2.txt")?
+#[aoc(day2, part2)]
+pub fn part2(input: &str) -> i64 {
+    let program = input
+        .trim()
         .split(',')
         .map(|x| x.parse::<i64>().unwrap())
         .collect::<Vec<_>>();
@@ -39,7 +43,7 @@ pub fn solve_part_b() -> std::io::Result<i64> {
         {}
 
         if program_clone[0] == 19_690_720 {
-            return Ok(100 * noun + verb);
+            return 100 * noun + verb;
         }
     }
 

@@ -1,8 +1,8 @@
 use crate::intcode::Program;
 
-pub fn solve_part_a() -> i64 {
-    let prog = std::fs::read_to_string("inputs/day5.txt")
-        .unwrap()
+#[aoc(day5, part1)]
+pub fn part1(input: &str) -> i64 {
+    let prog = input
         .trim()
         .split(',')
         .map(|x| x.parse().unwrap())
@@ -13,9 +13,9 @@ pub fn solve_part_a() -> i64 {
     *outputs.last().unwrap()
 }
 
-pub fn solve_part_b() -> i64 {
-    let prog = std::fs::read_to_string("inputs/day5.txt")
-        .unwrap()
+#[aoc(day5, part2)]
+pub fn part2(input: &str) -> i64 {
+    let prog = input
         .trim()
         .split(',')
         .map(|x| x.parse().unwrap())
