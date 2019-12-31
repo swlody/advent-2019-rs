@@ -60,14 +60,14 @@ impl<'a> System<'a> {
 }
 
 #[aoc(day6, part1)]
-pub fn part1(input: &str) -> std::io::Result<usize> {
+pub fn solve_part1(input: &str) -> std::io::Result<usize> {
     let system = System::from_string(&input)?;
 
     Ok(system.count_orbits())
 }
 
 #[aoc(day6, part2)]
-pub fn part2(input: &str) -> std::io::Result<usize> {
+pub fn solve_part2(input: &str) -> std::io::Result<usize> {
     let system = System::from_string(&input)?;
 
     Ok(system.transfer_distance("YOU", "SAN"))

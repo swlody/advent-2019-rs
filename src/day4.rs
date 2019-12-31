@@ -31,8 +31,8 @@ fn is_valid_password(digits: [u8; 6]) -> bool {
 }
 
 #[aoc(day4, part1)]
-pub fn part1(_input: &str) -> usize {
-    (168_630..718_098)
-        .map(to_digits)
-        .fold(0, |acc, digits| acc + if is_valid_password(digits) { 1 } else { 0 })
+pub fn solve_part1(_: &str) -> usize {
+    (168_630..718_098).map(to_digits).fold(0, |acc, digits| {
+        acc + if is_valid_password(digits) { 1 } else { 0 }
+    })
 }

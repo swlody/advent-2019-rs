@@ -1,20 +1,25 @@
 use crate::intcode;
 use itertools::Itertools;
 
-#[aoc(day7, part2)]
-pub fn part2(input: &str) -> i64 {
-    let prog = input
+#[aoc_generator(day7)]
+fn input_generator(input: &str) -> Vec<i64> {
+    input
         .trim()
         .split(',')
-        .map(|x| x.parse().unwrap())
-        .collect::<Vec<i64>>();
+        .map(|x| x.parse::<i64>().unwrap())
+        .collect::<Vec<_>>()
+}
 
+#[aoc(day7, part2)]
+pub fn solve_part2(program: &[i64]) -> i64 {
     (5..=9)
         .permutations(5)
         .map(move |phase_settings| {
             let mut last_output = 0;
 
-            let mut amplifiers = std::iter::repeat(prog.clone()).take(5).collect::<Vec<_>>();
+            let mut amplifiers = std::iter::repeat(program.to_vec())
+                .take(5)
+                .collect::<Vec<_>>();
             let mut pcs = [0; 5];
 
             let mut i = 0;
