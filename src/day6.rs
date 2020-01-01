@@ -11,7 +11,7 @@ impl<'a> System<'a> {
                 .trim()
                 .split('\n')
                 .map(|orbit| {
-                    let pair: Vec<&str> = orbit.split(')').collect();
+                    let pair = orbit.split(')').collect::<Vec<_>>();
                     if pair.len() == 2 {
                         Ok((pair[1], pair[0]))
                     } else {

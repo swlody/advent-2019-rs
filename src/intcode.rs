@@ -86,7 +86,6 @@ pub fn run_program(
 
         // Allow a truncating cast here since get_modes_from_instruction will fail if
         // the value weren't originally between 0 and 99 anyway.
-        #[allow(clippy::cast_possible_truncation)]
         let instruction = prog[*pc] as u32;
         let (lhs_mode, rhs_mode, dest_mode) = get_modes_from_instruction(instruction);
 

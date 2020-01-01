@@ -6,7 +6,7 @@ fn input_generator(input: &str) -> Vec<i64> {
         .trim()
         .split(',')
         .map(|x| x.parse::<i64>().unwrap())
-        .collect::<Vec<_>>()
+        .collect()
 }
 
 #[aoc(day5, part1)]

@@ -7,7 +7,7 @@ fn input_generator(input: &str) -> Vec<i64> {
         .split(',')
         .map(|x| x.parse().unwrap())
         .chain(std::iter::repeat(0).take(1024))
-        .collect::<Vec<_>>()
+        .collect()
 }
 
 #[aoc(day9, part2)]
