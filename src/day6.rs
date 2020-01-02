@@ -1,30 +1,11 @@
 use std::io::{Error, ErrorKind};
+use std::convert::TryFrom;
 
 struct System<'a> {
     orbits: std::collections::HashMap<&'a str, &'a str>,
 }
 
 impl<'a> System<'a> {
-    fn from_string(string: &'a str) -> std::io::Result<Self> {
-        Ok(Self {
-            orbits: string
-                .trim()
-                .split('\n')
-                .map(|orbit| {
-                    let pair = orbit.split(')').collect::<Vec<_>>();
-                    if pair.len() == 2 {
-                        Ok((pair[1], pair[0]))
-                    } else {
-                        Err(Error::new(
-                            ErrorKind::InvalidInput,
-                            "Invalid planet pair format",
-                        ))
-                    }
-                })
-                .collect::<std::io::Result<_>>()?,
-        })
-    }
-
     fn find_path(&self, source: &'a str, destination: &'a str) -> Option<Vec<&'a str>> {
         let mut path = vec![source];
 
@@ -59,16 +40,40 @@ impl<'a> System<'a> {
     }
 }
 
+impl<'a> TryFrom<&'a str> for System<'a> {
+    type Error = std::io::Error;
+
+    fn try_from(system: &'a str) -> Result<Self, Error> {
+        Ok(Self {
+            orbits: system
+                .trim()
+                .split('\n')
+                .map(|orbit| {
+                    let pair = orbit.split(')').collect::<Vec<_>>();
+                    if pair.len() == 2 {
+                        Ok((pair[1], pair[0]))
+                    } else {
+                        Err(Error::new(
+                            ErrorKind::InvalidInput,
+                            "Invalid planet pair format",
+                        ))
+                    }
+                })
+                .collect::<Result<_, _>>()?,
+        })
+    }
+}
+
 #[aoc(day6, part1)]
 pub fn solve_part1(input: &str) -> std::io::Result<usize> {
-    let system = System::from_string(&input)?;
+    let system = System::try_from(input)?;
 
     Ok(system.count_orbits())
 }
 
 #[aoc(day6, part2)]
 pub fn solve_part2(input: &str) -> std::io::Result<usize> {
-    let system = System::from_string(&input)?;
+    let system = System::try_from(input)?;
 
     Ok(system.transfer_distance("YOU", "SAN"))
 }
