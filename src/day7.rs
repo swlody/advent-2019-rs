@@ -1,4 +1,4 @@
-use crate::intcode;
+use crate::intcode::*;
 use itertools::Itertools;
 
 #[aoc_generator(day7)]
@@ -6,8 +6,31 @@ fn input_generator(input: &str) -> Vec<i64> {
     input
         .trim()
         .split(',')
-        .map(|x| x.parse::<i64>().unwrap())
+        .map(|x| x.parse().unwrap())
         .collect()
+}
+
+#[aoc(day7, part1)]
+pub fn solve_part1(program: &[i64]) -> i64 {
+    (0..=4)
+        .permutations(5)
+        .map(move |phase_settings| {
+            let mut last_output = 0;
+
+            // TODO(sawlody) each copy of the program can run in parallel until it hits an input
+            // without having a corresponding input. Can set up channels between the programs
+            // which block until the input is provided by its previous program.
+            for phase_setting in phase_settings {
+                last_output = *Program::new(program.to_vec(), vec![phase_setting, last_output])
+                    .collect::<Vec<_>>()
+                    .last()
+                    .unwrap();
+            }
+
+            last_output
+        })
+        .max()
+        .unwrap()
 }
 
 #[aoc(day7, part2)]
@@ -38,7 +61,7 @@ pub fn solve_part2(program: &[i64]) -> i64 {
                 {
                     let i = i % 5;
                     if let Some(output) =
-                        intcode::run_program(&mut amplifiers[i], &mut pcs[i], &mut 0, &inputs)
+                        run_program(&mut amplifiers[i], &mut pcs[i], &mut 0, &inputs)
                     {
                         last_output = output;
                     } else {

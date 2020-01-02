@@ -5,7 +5,7 @@ fn input_generator(input: &str) -> Vec<i64> {
     input
         .trim()
         .split(',')
-        .map(|x| x.parse::<i64>().unwrap())
+        .map(|x| x.parse().unwrap())
         .collect()
 }
 

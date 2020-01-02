@@ -16,7 +16,7 @@ fn input_generator(input: &str) -> Vec<u64> {
     input
         .trim()
         .split('\n')
-        .map(|x| x.parse::<u64>().unwrap())
+        .map(|x| x.parse().unwrap())
         .collect::<Vec<_>>()
 }
 

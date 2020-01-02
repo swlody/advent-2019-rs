@@ -1,5 +1,5 @@
-use std::io::{Error, ErrorKind};
 use std::convert::TryFrom;
+use std::io::{Error, ErrorKind};
 
 struct System<'a> {
     orbits: std::collections::HashMap<&'a str, &'a str>,
