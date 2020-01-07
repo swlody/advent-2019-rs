@@ -21,8 +21,7 @@ pub fn solve_part1(program: &[i64]) -> Option<i64> {
             // without having a corresponding input. Can set up channels between the programs
             // which block until the input is provided by its previous program.
             for phase_setting in phase_settings {
-                last_output = *Program::new(program.to_vec(), vec![phase_setting, last_output])
-                    .collect::<Vec<_>>()
+                last_output = Program::new(program.to_vec(), vec![phase_setting, last_output])
                     .last()
                     .unwrap();
             }
@@ -46,11 +45,7 @@ pub fn solve_part2(program: &[i64]) -> Option<i64> {
 
             let mut i = 0;
             let mut halted = 0;
-            loop {
-                if halted == 5 {
-                    break;
-                }
-
+            while halted != 5 {
                 let inputs = if i < 5 {
                     vec![phase_settings[i], 0]
                 } else {
