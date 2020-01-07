@@ -1,14 +1,13 @@
-fn fuel_sum(fuel: u64) -> u64 {
+fn fuel_sum(mut fuel: u64) -> u64 {
     let mut additional_fuel = fuel / 3;
-    let mut acc = fuel;
 
     while additional_fuel > 2 {
         additional_fuel -= 2;
-        acc += additional_fuel;
+        fuel += additional_fuel;
         additional_fuel /= 3;
     }
 
-    acc
+    fuel
 }
 
 #[aoc_generator(day1)]
@@ -17,7 +16,7 @@ fn input_generator(input: &str) -> Vec<u64> {
         .trim()
         .split('\n')
         .map(|x| x.parse().unwrap())
-        .collect::<Vec<_>>()
+        .collect()
 }
 
 #[aoc(day1, part1)]

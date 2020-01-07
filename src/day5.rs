@@ -10,17 +10,11 @@ fn input_generator(input: &str) -> Vec<i64> {
 }
 
 #[aoc(day5, part1)]
-pub fn solve_part1(program: &[i64]) -> i64 {
-    *Program::new(program.to_vec(), vec![1])
-        .collect::<Vec<_>>()
-        .last()
-        .unwrap()
+pub fn solve_part1(program: &[i64]) -> Option<i64> {
+    Program::new(program.to_vec(), vec![1]).last()
 }
 
 #[aoc(day5, part2)]
-pub fn solve_part2(program: &[i64]) -> i64 {
-    *Program::new(program.to_vec(), vec![5])
-        .collect::<Vec<_>>()
-        .last()
-        .unwrap()
+pub fn solve_part2(program: &[i64]) -> Option<i64> {
+    Program::new(program.to_vec(), vec![5]).last()
 }

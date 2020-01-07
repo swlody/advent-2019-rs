@@ -11,7 +11,7 @@ fn input_generator(input: &str) -> Vec<i64> {
 }
 
 #[aoc(day7, part1)]
-pub fn solve_part1(program: &[i64]) -> i64 {
+pub fn solve_part1(program: &[i64]) -> Option<i64> {
     (0..=4)
         .permutations(5)
         .map(move |phase_settings| {
@@ -30,11 +30,10 @@ pub fn solve_part1(program: &[i64]) -> i64 {
             last_output
         })
         .max()
-        .unwrap()
 }
 
 #[aoc(day7, part2)]
-pub fn solve_part2(program: &[i64]) -> i64 {
+pub fn solve_part2(program: &[i64]) -> Option<i64> {
     (5..=9)
         .permutations(5)
         .map(move |phase_settings| {
@@ -75,5 +74,4 @@ pub fn solve_part2(program: &[i64]) -> i64 {
             last_output
         })
         .max()
-        .unwrap()
 }
