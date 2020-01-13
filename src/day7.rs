@@ -2,12 +2,8 @@ use crate::intcode::*;
 use itertools::Itertools;
 
 #[aoc_generator(day7)]
-fn input_generator(input: &str) -> Vec<i64> {
-    input
-        .trim()
-        .split(',')
-        .map(|x| x.parse().unwrap())
-        .collect()
+fn input_generator(input: &str) -> Result<Vec<i64>, std::num::ParseIntError> {
+    input.trim().split(',').map(|x| x.parse()).collect()
 }
 
 #[aoc(day7, part1)]
@@ -15,19 +11,19 @@ pub fn solve_part1(program: &[i64]) -> Option<i64> {
     (0..=4)
         .permutations(5)
         .map(move |phase_settings| {
-            let mut last_output = 0;
+            let mut last_output = Some(0);
 
             // TODO(sawlody) each copy of the program can run in parallel until it hits an input
             // without having a corresponding input. Can set up channels between the programs
             // which block until the input is provided by its previous program.
             for phase_setting in phase_settings {
-                last_output = Program::new(program.to_vec(), vec![phase_setting, last_output])
-                    .last()
-                    .unwrap();
+                last_output =
+                    Program::new(program.to_vec(), vec![phase_setting, last_output?]).last();
             }
 
             last_output
         })
+        .flatten()
         .max()
 }
 

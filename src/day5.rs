@@ -1,12 +1,8 @@
 use crate::intcode::Program;
 
 #[aoc_generator(day5)]
-fn input_generator(input: &str) -> Vec<i64> {
-    input
-        .trim()
-        .split(',')
-        .map(|x| x.parse().unwrap())
-        .collect()
+fn input_generator(input: &str) -> Result<Vec<i64>, std::num::ParseIntError> {
+    input.trim().split(',').map(|x| x.parse()).collect()
 }
 
 #[aoc(day5, part1)]

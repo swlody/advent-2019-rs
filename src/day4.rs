@@ -5,7 +5,9 @@ fn to_digits(x: u32) -> [u8; 6] {
     let mut num = x;
 
     for digit in &mut digits {
-        *digit = (num % 10).try_into().unwrap_or_else(|_| unreachable!());
+        *digit = (num % 10)
+            .try_into()
+            .unwrap_or_else(|_| unsafe { std::hint::unreachable_unchecked() });
         num /= 10;
     }
 

@@ -7,23 +7,16 @@ fn fix_program(program: &mut [i64], noun: i64, verb: i64) {
 }
 
 #[aoc_generator(day2)]
-fn input_generator(input: &str) -> Vec<i64> {
-    input
-        .trim()
-        .split(',')
-        .map(|x| x.parse().unwrap())
-        .collect()
+fn input_generator(input: &str) -> Result<Vec<i64>, std::num::ParseIntError> {
+    input.trim().split(',').map(|x| x.parse()).collect()
 }
 
 #[aoc(day2, part1)]
 pub fn solve_part1(program: &[i64]) -> i64 {
     let mut program = program.to_vec();
+    fix_program(&mut program, 12, 2);
 
-    let (noun, verb) = (12, 2);
-    fix_program(&mut program, noun, verb);
-
-    let (mut pc, mut relative_base) = (0, 0);
-    while let Some(_) = intcode::run_program(&mut program, &mut pc, &mut relative_base, &[]) {}
+    while let Some(_) = intcode::run_program(&mut program, &mut 0, &mut 0, &[]) {}
 
     program[0]
 }
@@ -36,8 +29,7 @@ pub fn solve_part2(program: &[i64]) -> i64 {
         let (noun, verb) = (inputs[0], inputs[1]);
         fix_program(&mut program, noun, verb);
 
-        let (mut pc, mut relative_base) = (0, 0);
-        while let Some(_) = intcode::run_program(&mut program, &mut pc, &mut relative_base, &[]) {}
+        while let Some(_) = intcode::run_program(&mut program, &mut 0, &mut 0, &[]) {}
 
         if program[0] == 19_690_720 {
             return 100 * noun + verb;

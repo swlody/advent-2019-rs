@@ -24,9 +24,9 @@ impl<'a> System<'a> {
         })
     }
 
-    fn transfer_distance(&self, source: &str, destination: &str) -> usize {
-        let source_to_com = self.find_path(source, "COM").unwrap();
-        let destination_to_com = self.find_path(destination, "COM").unwrap();
+    fn transfer_distance(&self, source: &str, destination: &str) -> Option<usize> {
+        let source_to_com = self.find_path(source, "COM")?;
+        let destination_to_com = self.find_path(destination, "COM")?;
         let lengths = source_to_com.len() + destination_to_com.len();
 
         let intersection = source_to_com
@@ -36,7 +36,7 @@ impl<'a> System<'a> {
             .take_while(|(source_planet, destination_planet)| source_planet == destination_planet)
             .count();
 
-        lengths - (intersection * 2) - 2
+        Some(lengths - (intersection * 2) - 2)
     }
 }
 
@@ -59,7 +59,8 @@ impl<'a> TryFrom<&'a str> for System<'a> {
                         ))
                     }
                 })
-                .collect::<Result<_, _>>()?,
+                .flatten()
+                .collect(),
         })
     }
 }
@@ -75,5 +76,7 @@ pub fn solve_part1(input: &str) -> std::io::Result<usize> {
 pub fn solve_part2(input: &str) -> std::io::Result<usize> {
     let system = System::try_from(input)?;
 
-    Ok(system.transfer_distance("YOU", "SAN"))
+    system
+        .transfer_distance("YOU", "SAN")
+        .ok_or_else(|| Error::new(ErrorKind::InvalidInput, "No path from YOU to SAN"))
 }
