@@ -11,8 +11,17 @@ fn fuel_sum(mut fuel: u64) -> u64 {
 }
 
 #[aoc_generator(day1)]
-fn input_generator(input: &str) -> Result<Vec<u64>, std::num::ParseIntError> {
-    input.trim().split('\n').map(|x| x.parse()).collect()
+fn input_generator(input: &str) -> Vec<u64> {
+    input
+        .trim()
+        .split('\n')
+        .enumerate()
+        .map(|(i, x)| {
+            x.parse().unwrap_or_else(|_| {
+                panic!("Unable to parse \"{}\" at line {} as integer", x, i + 1)
+            })
+        })
+        .collect()
 }
 
 #[aoc(day1, part1)]

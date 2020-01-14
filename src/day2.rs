@@ -7,8 +7,15 @@ fn fix_program(program: &mut [i64], noun: i64, verb: i64) {
 }
 
 #[aoc_generator(day2)]
-fn input_generator(input: &str) -> Result<Vec<i64>, std::num::ParseIntError> {
-    input.trim().split(',').map(|x| x.parse()).collect()
+fn input_generator(input: &str) -> Vec<i64> {
+    input
+        .trim()
+        .split(',')
+        .map(|x| {
+            x.parse()
+                .unwrap_or_else(|_| panic!("Unable to parse \"{}\" as integer", x))
+        })
+        .collect()
 }
 
 #[aoc(day2, part1)]

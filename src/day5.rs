@@ -1,8 +1,15 @@
 use crate::intcode::Program;
 
 #[aoc_generator(day5)]
-fn input_generator(input: &str) -> Result<Vec<i64>, std::num::ParseIntError> {
-    input.trim().split(',').map(|x| x.parse()).collect()
+fn input_generator(input: &str) -> Vec<i64> {
+    input
+        .trim()
+        .split(',')
+        .map(|x| {
+            x.parse()
+                .unwrap_or_else(|_| panic!("Unable to parse \"{}\" as integer", x))
+        })
+        .collect()
 }
 
 #[aoc(day5, part1)]

@@ -7,6 +7,8 @@ fn to_digits(x: u32) -> [u8; 6] {
     for digit in &mut digits {
         *digit = (num % 10)
             .try_into()
+            // The result of u32 % 10 is ALWAYS an integer in the range 0..10
+            // which means that it always fits into a u8, so try_into() is infallible.
             .unwrap_or_else(|_| unsafe { std::hint::unreachable_unchecked() });
         num /= 10;
     }
